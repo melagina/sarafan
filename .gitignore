@@ -3,3 +3,4 @@
 /.idea
 *.iml
 /.gradle
+/src/main/resources/application-dev.properties
