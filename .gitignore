@@ -4,3 +4,4 @@
 *.iml
 /.gradle
 /src/main/resources/application-dev.properties
+/node_modules
