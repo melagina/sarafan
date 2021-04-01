@@ -11,7 +11,9 @@ module.exports = {
     port: 9000,
     allowedHosts: [
       'localhost:8080'
-    ]
+    ],
+    stats: 'errors-only',
+    clientLogLevel: 'error'
   },
   module: {
     rules: [
