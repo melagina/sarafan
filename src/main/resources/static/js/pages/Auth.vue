@@ -9,7 +9,3 @@
         name: 'Auth',
     }
 </script>
-
-<style scoped>
-
-</style>
