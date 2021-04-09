@@ -38,7 +38,10 @@ public class MainController {
             @AuthenticationPrincipal User user
     ) throws JsonProcessingException {
         HashMap<Object, Object> data = new HashMap<>();
-        if (user != null) {
+
+        if ( user == null) {
+            model.addAttribute("messages", "[]");
+        } else {
             data.put("profile", user);
 
             String messages = writer.writeValueAsString(messageRepo.findAll());

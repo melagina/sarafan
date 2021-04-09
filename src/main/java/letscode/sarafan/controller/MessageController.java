@@ -64,16 +64,18 @@ public class MessageController {
         message.setCreationDate(LocalDateTime.now());
         fillMeta(message);
         message.setAutor(user);
-        Message updatedMessage = messageRepo.save(message);
+        Message createdMessage = messageRepo.save(message);
 
-        wsSender.accept(EventType.CREATE, updatedMessage);
+        wsSender.accept(EventType.CREATE, createdMessage);
 
-        return updatedMessage;
+        return createdMessage;
     }
 
     @PutMapping("{id}")
-    public Message update(@PathVariable("id") Message messageFromDb,
-                                      @RequestBody Message message) throws IOException {
+    public Message update(
+            @PathVariable("id") Message messageFromDb,
+            @RequestBody Message message
+    ) throws IOException {
         BeanUtils.copyProperties(message, messageFromDb , "id");
         fillMeta(message);
         Message updatedMessage = messageRepo.save(messageFromDb);
