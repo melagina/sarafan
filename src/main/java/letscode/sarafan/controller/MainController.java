@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import letscode.sarafan.domain.User;
 import letscode.sarafan.domain.Views;
 import letscode.sarafan.dto.MessagePageDto;
-import letscode.sarafan.repo.MessageRepo;
 import letscode.sarafan.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.util.HashMap;
 
 @Controller
@@ -52,9 +50,10 @@ public class MainController {
             PageRequest pageRequest = PageRequest.of(0, MessageController.MESSAGES_PER_PAGE, sort);
             MessagePageDto messagePageDto = messageService.findAll(pageRequest);
 
-            String messages = writer.writeValueAsString(messagePageDto);
+            String messages = writer.writeValueAsString(messagePageDto.getMessages());
 
             model.addAttribute("messages", messages);
+
             data.put("currentPage", messagePageDto.getCurrentPage());
             data.put("totalPages", messagePageDto.getTotalPages());
         }
