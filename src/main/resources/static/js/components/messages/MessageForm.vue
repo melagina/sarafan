@@ -32,7 +32,7 @@
             ...mapActions(['addMessageAction', 'updateMessageAction']),
             save() {
                 const message = {
-                    id : this.id,
+                    id : this.id ? this.id : null,
                     text: this.text
                 }
                 if (this.id) {

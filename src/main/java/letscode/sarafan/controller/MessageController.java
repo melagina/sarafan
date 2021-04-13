@@ -30,7 +30,7 @@ public class MessageController {
     @GetMapping
     @JsonView(Views.FullMessage.class)
     public MessagePageDto list(
-            @PageableDefault(size = 3, sort = {"id"}, direction= Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(size = 3, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return messageService.findAll(pageable);
     }
@@ -42,10 +42,11 @@ public class MessageController {
     }
 
     @PostMapping
+    @JsonView(Views.FullMessage.class)
     public Message create(
             @RequestBody Message message,
             @AuthenticationPrincipal User user
-            ) throws IOException {
+    ) throws IOException {
         return messageService.create(message, user);
     }
 

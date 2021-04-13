@@ -49,7 +49,7 @@ public class MessageService {
     }
 
     public Message update(Message messageFromDb, Message message) throws IOException {
-        BeanUtils.copyProperties(message, messageFromDb , "id");
+        messageFromDb.setText(message.getText());
         fillMeta(message);
         Message updatedMessage = messageRepo.save(messageFromDb);
 
@@ -61,7 +61,7 @@ public class MessageService {
     public Message create(Message message, User user) throws IOException {
         message.setCreationDate(LocalDateTime.now());
         fillMeta(message);
-        message.setAutor(user);
+        message.setAuthor(user);
         Message createdMessage = messageRepo.save(message);
 
         wsSender.accept(EventType.CREATE, createdMessage);

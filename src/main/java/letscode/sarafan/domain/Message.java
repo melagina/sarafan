@@ -1,9 +1,6 @@
 package letscode.sarafan.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -38,11 +35,10 @@ public class  Message {
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonView(Views.FullMessage.class)
-    private User autor;
+    private User author;
 
     @OneToMany(mappedBy = "message", orphanRemoval = true)
     @JsonView(Views.FullMessage.class)
-//    @JsonManagedReference
     private List<Comment> comments;
 
     @JsonView(Views.FullMessage.class)

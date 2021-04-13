@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import letscode.sarafan.domain.User;
 import letscode.sarafan.domain.Views;
 import letscode.sarafan.dto.MessagePageDto;
+import letscode.sarafan.exception.NotFoundException;
+import letscode.sarafan.repo.UserDetailsRepo;
 import letscode.sarafan.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,16 +24,24 @@ import java.util.HashMap;
 @RequestMapping("/")
 public class MainController {
     private final MessageService messageService;
+    private final UserDetailsRepo userDetailsRepo;
+
+    private final ObjectWriter messageWriter;
+    private final ObjectWriter profileWriter;
+
     @Value("${spring.profiles.active}")
     private String profile;
-    private final ObjectWriter writer;
 
     @Autowired
-    public MainController(MessageService messageService, ObjectMapper mapper) {
+    public MainController(MessageService messageService, UserDetailsRepo userDetailsRepo, ObjectMapper mapper) {
         this.messageService = messageService;
-        this.writer = mapper
+        this.userDetailsRepo = userDetailsRepo;
+        this.messageWriter = mapper
                 .setConfig(mapper.getSerializationConfig())
                 .writerWithView(Views.FullMessage.class);
+        this.profileWriter = mapper
+                .setConfig(mapper.getSerializationConfig())
+                .writerWithView(Views.FullProfile.class);
     }
 
     @GetMapping
@@ -41,16 +51,21 @@ public class MainController {
     ) throws JsonProcessingException {
         HashMap<Object, Object> data = new HashMap<>();
 
-        if ( user == null) {
+        if (user == null) {
             model.addAttribute("messages", "[]");
+            model.addAttribute("profile", "null");
         } else {
-            data.put("profile", user);
+            User userFromDb = userDetailsRepo.
+                    findById(user.getId())
+                    .orElseThrow(() -> new NotFoundException());
+            String serializedProfile = profileWriter.writeValueAsString(userFromDb);
+            model.addAttribute("profile", serializedProfile);
 
             Sort sort = Sort.by(Sort.Direction.DESC, "id");
             PageRequest pageRequest = PageRequest.of(0, MessageController.MESSAGES_PER_PAGE, sort);
             MessagePageDto messagePageDto = messageService.findAll(pageRequest);
 
-            String messages = writer.writeValueAsString(messagePageDto.getMessages());
+            String messages = messageWriter.writeValueAsString(messagePageDto.getMessages());
 
             model.addAttribute("messages", messages);
 

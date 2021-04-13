@@ -8,11 +8,11 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         messages,
+        profile,
         ...frontendData
     },
     getters: {
-        sortedMessages: state => state.messages
-//        sortedMessages: state => (state.messages || [] ).sort((a, b) => -(a.id - b.id))
+        sortedMessages: state => (state.messages || []).sort((a, b) => -(a.id - b.id))
     },
     mutations: {
         addMessageMutation(state, message) {
@@ -80,7 +80,6 @@ export default new Vuex.Store({
             const result = await messagesApi.add(message)
             const data = await result.json()
             const index = state.messages.findIndex(item => item.id === data.id)
-
             if (index > -1) {
                 commit('updateMessageMutation', data)
             } else {

@@ -1,5 +1,6 @@
 package letscode.sarafan.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,7 +23,6 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "message_id")
     @JsonView({Views.IdName.class})
-//    @JsonBackReference
     private Message message;
 
     @ManyToOne
