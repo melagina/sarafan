@@ -13,8 +13,20 @@
                             <v-flex>{{profile.locale}}</v-flex>
                             <v-flex>{{profile.gender}}</v-flex>
                             <v-flex>{{profile.lastVisit}}</v-flex>
-                            <v-flex>{{profile.subscriptions && profile.subscriptions.length}} subscriptions</v-flex>
-                            <v-flex>{{profile.subscribers && profile.subscribers.length}} subscribers</v-flex>
+                            <v-flex>
+                                {{profile.subscriptions && profile.subscriptions.length}} subscriptions
+                            </v-flex>
+                            <router-link
+                                v-if="isMyProfile"
+                                :to="`/subscriptions/${profile.id}`"
+                            >
+                                {{profile.subscribers && profile.subscribers.length}} subscribers
+                            </router-link>
+                            <v-flex
+                                v-else
+                            >
+                                {{profile.subscribers && profile.subscribers.length}} subscribers
+                            </v-flex>
                         </v-layout>
                     </v-flex>
                 </v-layout>
@@ -22,7 +34,7 @@
                    v-if="!isMyProfile"
                    @click="changeSubscription"
                 >
-                    {{ isISubscribed ? 'Unsubscribe' : 'Subscribe' }}
+                    {{ isMeSubscribed ? 'Unsubscribe' : 'Subscribe' }}
                 </v-btn>
             </v-flex>
         </v-layout>
@@ -43,7 +55,7 @@
             isMyProfile() {
                 return !this.$route.params.id || this.$route.params.id === this.$store.state.profile.id
             },
-            isISubscribed() {
+            isMeSubscribed() {
                 return this.profile.subscribers &&
                     this.profile.subscribers.find(subscription => {
                         return subscription.subscriber === this.$store.state.profile.id
@@ -57,21 +69,8 @@
         },
         methods: {
             async changeSubscription() {
-                console.log(this.profile.subscribers)
                 const data = await profileApi.changeSubscription(this.profile.id)
-                this.profile = await data.json()
-                console.log(this.profile.subscribers)
-                console.log(this.profile.id)
-                console.log(this.$store.state.profile.id)
-                console.log(this.profile.subscribers)
-                console.log("======")
-                this.profile.subscribers.forEach(subscription => {
-                    console.log(subscription.subscriber)
-                    console.log(subscription.subscriber === this.$store.state.profile.id)
-                })
-                console.log("======")
-                console.log(this.isISubscribed)
-                
+                this.profile = await data.json()                                
             },
             async updateProfile() {
                 const id = this.$route.params.id || this.$store.state.profile.id
