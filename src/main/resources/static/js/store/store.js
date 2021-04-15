@@ -79,8 +79,6 @@ export default new Vuex.Store({
         async addMessageAction({commit, state}, message) {
             const result = await messagesApi.add(message)
             const data = await result.json()
-            console.log('1.==============')
-            console.log(data)
             const index = state.messages.findIndex(item => item.id === data.id)
             if (index > -1) {
                 commit('updateMessageMutation', data)
