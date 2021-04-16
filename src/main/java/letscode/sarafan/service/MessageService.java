@@ -61,7 +61,6 @@ public class MessageService {
         Message updatedMessage = messageRepo.save(messageFromDb);
 
         wsSender.accept(EventType.UPDATE, updatedMessage);
-
         return updatedMessage;
     }
 

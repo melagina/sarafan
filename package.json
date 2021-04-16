@@ -5,6 +5,8 @@
   "main": "webpack.config.js",
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "@sentry/tracing": "^6.2.5",
+    "@sentry/vue": "^6.2.5",
     "@stomp/stompjs": "^6.1.0",
     "sockjs-client": "^1.5.1",
     "vue": "^2.6.12",
