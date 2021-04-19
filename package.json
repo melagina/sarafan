@@ -8,6 +8,7 @@
     "@sentry/tracing": "^6.2.5",
     "@sentry/vue": "^6.2.5",
     "@stomp/stompjs": "^6.1.0",
+    "html-webpack-plugin": "^5.3.1",
     "sockjs-client": "^1.5.1",
     "vue": "^2.6.12",
     "vue-resource": "^1.5.1",
@@ -19,6 +20,7 @@
     "@babel/core": "^7.13.14",
     "@babel/preset-env": "^7.13.12",
     "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
     "css-loader": "^5.2.0",
     "template-loader": "^0.2.0",
     "vue-loader": "^15.9.6",
@@ -26,12 +28,14 @@
     "vue-template-compiler": "^2.6.12",
     "webpack": "^5.28.0",
     "webpack-cli": "^4.6.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "webpack-merge": "^5.7.3"
   },
   "scripts": {
-    "dev": "webpack serve",
+    "dev": "webpack serve --open --config webpack.dev.js",
     "start": "webpack-dev-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.prod.js"
   },
   "repository": {
     "type": "git",

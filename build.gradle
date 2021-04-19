@@ -2,10 +2,19 @@ plugins {
     id 'org.springframework.boot' version '2.4.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id "com.moowork.node" version "1.3.1"
 }
 
 group 'letscode'
 version '1.0-SNAPSHOT'
+
+task buildFront(type: YarnTask) {
+    args = ['build']
+}
+
+yarn_install.dependsOn(yarn_cache_clean)
+buildFront.dependsOn(yarn_install)
+processResources.dependsOn(buildFront)
 
 repositories {
     mavenCentral()

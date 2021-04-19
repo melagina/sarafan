@@ -6,3 +6,4 @@
 /src/main/resources/application-dev.properties
 /node_modules
 *.log
+/src/main/resources/static/js/
